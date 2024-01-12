@@ -5,6 +5,7 @@ export default class Dragging {
     this.compass = compass
     this.arrow = arrow
 
+    this.dragTarget = this.compass
     this.stage = app.stage
 
     this.offsetTouch = {
@@ -20,23 +21,23 @@ export default class Dragging {
     this.stage.interactive = true
     this.stage.hitArea = this.app.screen
 
-    this.arrow.interactive = true
-    this.arrow.on('pointerdown', this.onDragStart)
-    this.arrow.on('pointerup', this.onDragEnd)
-    this.arrow.on('pointerupoutside', this.onDragEnd)
+    this.dragTarget.interactive = true
+    this.dragTarget.on('pointerdown', this.onDragStart)
+    this.dragTarget.on('pointerup', this.onDragEnd)
+    this.dragTarget.on('pointerupoutside', this.onDragEnd)
   }
 
   onDragStart = (event) => {
-    this.arrow = event.target
+    this.dragTarget = event.target
 
     const touch = event.data.global
     this.offsetTouch = {
-      x: touch.x - this.arrow.getGlobalPosition().x,
-      y: touch.y - this.arrow.getGlobalPosition().y,
+      x: touch.x - this.dragTarget.getGlobalPosition().x,
+      y: touch.y - this.dragTarget.getGlobalPosition().y,
     }
     this.initPosition = {
-      x: this.arrow.x,
-      y: this.arrow.y
+      x: this.dragTarget.x,
+      y: this.dragTarget.y
     }
 
     this.stage.on('pointermove', this.onDragMove)
@@ -46,12 +47,12 @@ export default class Dragging {
     const touch = event.data.global
 
     const parentOffset = {
-      x: this.arrow.parent ? this.arrow.parent.x : 0,
-      y: this.arrow.parent ? this.arrow.parent.y : 0,
+      x: this.dragTarget.parent ? this.dragTarget.parent.x : 0,
+      y: this.dragTarget.parent ? this.dragTarget.parent.y : 0,
     }
 
-    this.arrow.x = touch.x - this.offsetTouch.x - parentOffset.x
-    this.arrow.y = touch.y - this.offsetTouch.y - parentOffset.y
+    this.dragTarget.x = touch.x - this.offsetTouch.x - parentOffset.x
+    this.dragTarget.y = touch.y - this.offsetTouch.y - parentOffset.y
 
     // Добавим здесь логику для поворота стрелочки к ближайшему предмету
     this.rotateArrowTowardsNearestItem();
@@ -63,14 +64,13 @@ export default class Dragging {
 
   // -------------------------
   rotateArrowTowardsNearestItem = () => {
-    const arrowGlobalPos = this.arrow.getGlobalPosition();
-    const nearestItem = this.findNearestItem(arrowGlobalPos);
+    const compassGlobalPos = this.compass.getGlobalPosition();
+    const nearestItem = this.findNearestItem(compassGlobalPos);
 
     if (nearestItem) {
-      const angle = Math.atan2(
-        (nearestItem.y + nearestItem.width / 2) - arrowGlobalPos.y,
-        (nearestItem.x + nearestItem.height / 2) - arrowGlobalPos.x
-      );
+      const y = nearestItem.y - compassGlobalPos.y
+      const x = nearestItem.x - compassGlobalPos.x
+      const angle = Math.atan2(y, x)
 
       // Переводим радианы в градусы и поворачиваем стрелочку
       this.arrow.rotation = angle + Math.PI / 2;
