@@ -45,13 +45,17 @@ class Game {
 
   createItems = () => {
     const spriteA = new Sprite(Texture.from('blockA'))
+    spriteA.name = 'block'
     spriteA.position.set(300)
     const spriteB = new Sprite(Texture.from('blockB'))
+    spriteB.name = 'block'
     spriteB.position.set(900, 500)
     const spriteC = new Sprite(Texture.from('blockC'))
+    spriteC.name = 'block'
     spriteC.position.set(500, 900)
 
-    this.wrapper.addChild(spriteA, spriteB, spriteC)
+    this.wrapper.addChild(spriteC)
+    // this.wrapper.addChild(spriteA, spriteB, spriteC)
   }
 
   createCompass = () => {

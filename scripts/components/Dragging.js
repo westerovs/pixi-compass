@@ -68,8 +68,8 @@ export default class Dragging {
 
     if (nearestItem) {
       const angle = Math.atan2(
-        nearestItem.y - arrowGlobalPos.y,
-        nearestItem.x - arrowGlobalPos.x
+        (nearestItem.y + nearestItem.width / 2) - arrowGlobalPos.y,
+        (nearestItem.x + nearestItem.height / 2) - arrowGlobalPos.x
       );
 
       // Переводим радианы в градусы и поворачиваем стрелочку
@@ -82,7 +82,7 @@ export default class Dragging {
     let nearestItem = null;
 
     this.wrapper.children.forEach((item) => {
-      if (item !== this.arrow) {
+      if (item.name === 'block') {
         const distance = this.calculateDistance(arrowPos, item.getGlobalPosition());
 
         if (distance < minDistance) {
