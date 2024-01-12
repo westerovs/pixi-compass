@@ -1,4 +1,4 @@
-import {Application, Rectangle, Container, Sprite, Texture} from '../assets/lib/pixi.mjs'
+import {Application, Container, Sprite, Texture} from '../assets/lib/pixi.mjs'
 import {assetsMap} from './assetsMap.js'
 import {config} from './config.js'
 import Dragging from './components/Dragging.js'
@@ -17,9 +17,6 @@ class Game {
 
     this.compass = null
     this.arrow = null
-
-    this.app.ticker.add(this.update);
-
   }
 
   preload() {
@@ -54,7 +51,6 @@ class Game {
     spriteC.name = 'block'
     spriteC.position.set(500, 900)
 
-    // this.wrapper.addChild(spriteA)
     this.wrapper.addChild(spriteA, spriteB, spriteC)
   }
 
@@ -75,13 +71,6 @@ class Game {
 
     return arrow
   }
-
-  update = () => {
-    // if (this.arrow) {
-    //   this.arrow.angle += 1
-    // }
-  }
-
 }
 
 new Game().init()

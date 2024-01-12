@@ -55,17 +55,17 @@ export default class Dragging {
     this.dragTarget.y = touch.y - this.offsetTouch.y - parentOffset.y
 
     // Добавим здесь логику для поворота стрелочки к ближайшему предмету
-    this.rotateArrowTowardsNearestItem();
+    this.rotateArrowTowardsNearestItem()
   }
 
   onDragEnd = () => {
     this.stage.off('pointermove', this.onDragMove)
   }
 
-  // -------------------------
+  // ----------- arrow logic --------------
   rotateArrowTowardsNearestItem = () => {
-    const compassGlobalPos = this.compass.getGlobalPosition();
-    const nearestItem = this.findNearestItem(compassGlobalPos);
+    const compassGlobalPos = this.compass.getGlobalPosition()
+    const nearestItem = this.findNearestItem(compassGlobalPos)
 
     if (nearestItem) {
       const y = nearestItem.y - compassGlobalPos.y
@@ -73,32 +73,31 @@ export default class Dragging {
       const angle = Math.atan2(y, x)
 
       // Переводим радианы в градусы и поворачиваем стрелочку
-      this.arrow.rotation = angle + Math.PI / 2;
+      this.arrow.rotation = angle + Math.PI / 2
     }
-  };
+  }
 
   findNearestItem = (arrowPos) => {
-    let minDistance = Infinity;
-    let nearestItem = null;
+    let minDistance = Infinity
+    let nearestItem = null
 
     this.wrapper.children.forEach((item) => {
       if (item.name === 'block') {
-        const distance = this.calculateDistance(arrowPos, item.getGlobalPosition());
+        const distance = this.calculateDistance(arrowPos, item.getGlobalPosition())
 
         if (distance < minDistance) {
-          minDistance = distance;
-          nearestItem = item;
+          minDistance = distance
+          nearestItem = item
         }
       }
-    });
+    })
 
-    return nearestItem;
-  };
+    return nearestItem
+  }
 
   calculateDistance = (point1, point2) => {
-    const dx = point2.x - point1.x;
-    const dy = point2.y - point1.y;
-    return Math.sqrt(dx * dx + dy * dy);
-  };
-
+    const dx = point2.x - point1.x
+    const dy = point2.y - point1.y
+    return Math.sqrt(dx * dx + dy * dy)
+  }
 }
