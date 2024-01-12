@@ -15,6 +15,7 @@ class Game {
     this.app.stage.addChild(this.wrapper)
     this.wrapper.sortableChildren = true
 
+    this.compass = null
     this.arrow = null
   }
 
@@ -34,28 +35,39 @@ class Game {
 
   startGame = () => {
     this.createItems()
-    this.createArrow()
+    this.createCompass()
 
-    new Dragging(this.app, this.wrapper, this.arrow)
+    new Dragging(this.app, this.wrapper, this.compass, this.arrow)
   }
 
   createItems = () => {
-    assetsMap.sprites.forEach(({name}, i) => {
-      if (name !== 'arrow') {
-        const sprite = new Sprite(Texture.from(name))
-        sprite.anchor.set(0.5)
-        sprite.position.set((1366 / 2))
-        this.wrapper.addChild(sprite)
-      }
-    })
+    const spriteA = new Sprite(Texture.from('blockA'))
+    spriteA.position.set(300)
+    const spriteB = new Sprite(Texture.from('blockB'))
+    spriteB.position.set(900, 500)
+    const spriteC = new Sprite(Texture.from('blockC'))
+    spriteC.position.set(500, 900)
+
+    this.wrapper.addChild(spriteA, spriteB, spriteC)
+  }
+
+
+  createCompass = () => {
+    this.compass = new Sprite(Texture.from('compassBody'))
+    this.wrapper.addChild(this.compass)
+
+    this.createArrow()
   }
 
   createArrow = () => {
     this.arrow = new Sprite(Texture.from('arrow'))
-    // this.arrow.anchor.set(0.5)
-    this.arrow.position.set(1366 / 2)
-    this.wrapper.addChild(this.arrow)
+    this.arrow.position.set(
+      (this.compass.width / 2) - this.arrow.width / 2,
+      (this.compass.height / 2) - this.arrow.height / 2,
+    )
+    this.compass.addChild(this.arrow)
   }
+
 }
 
 new Game().init()
