@@ -1,14 +1,8 @@
-/*
-1 Создай метод для расчета расстояния между двумя точками.
-2 Создай метод для нахождения ближайшего предмета.
-3 В методе onDragMove вызови методы для расчета расстояния и поиска ближайшего предмета.
-4 Используй результаты для поворота стрелочки в нужное направление.
-* */
-
 export default class Dragging {
-  constructor(app, wrapper, arrow) {
+  constructor(app, wrapper, compass, arrow) {
     this.app = app
     this.wrapper = wrapper
+    this.compass = compass
     this.arrow = arrow
 
     this.stage = app.stage

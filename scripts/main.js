@@ -17,6 +17,9 @@ class Game {
 
     this.compass = null
     this.arrow = null
+
+    this.app.ticker.add(this.update);
+
   }
 
   preload() {
@@ -51,21 +54,31 @@ class Game {
     this.wrapper.addChild(spriteA, spriteB, spriteC)
   }
 
-
   createCompass = () => {
     this.compass = new Sprite(Texture.from('compassBody'))
+    this.compass.position.set(500, 500)
     this.wrapper.addChild(this.compass)
 
     this.createArrow()
+
+    // Установим sortable для контейнера с arrow
+    this.compass.sortableChildren = true;
   }
 
   createArrow = () => {
     this.arrow = new Sprite(Texture.from('arrow'))
+    this.arrow.anchor.set(0.5)
     this.arrow.position.set(
-      (this.compass.width / 2) - this.arrow.width / 2,
-      (this.compass.height / 2) - this.arrow.height / 2,
+      (this.compass.width / 2),
+      (this.compass.height / 2),
     )
     this.compass.addChild(this.arrow)
+  }
+
+  update = () => {
+    // if (this.arrow) {
+    //   this.arrow.angle += 1
+    // }
   }
 
 }
